@@ -31,14 +31,14 @@ public class Transforms2D extends JPanel {
 				g2.scale(0.55, -0.75);
 				break;
 			case 4:
-				g2.shear(0.25, 0);
+				g2.shear(0.66, 0);
 				break;
 			case 5:
 				g2.scale(1, 0.45);
-				g2.translate(0, -513);
+				g2.translate(0, -600);
 				break;
 			case 6:
-				g2.shear(0, -0.55);
+				g2.shear(0, -0.72);
 				g2.rotate(1.7);
 				break;
 			case 7:
@@ -53,13 +53,16 @@ public class Transforms2D extends JPanel {
 			case 9:
 				g2.rotate(Math.PI);
 				g2.shear(0, 0.275);
-				g2.translate(-147, 0);
+				g2.translate(-122, 0);
 				break;
 			}
+
 			
 
+			Polygon polygon = new Polygon();
+
 			final int anglesCount = 7;
-		
+
 			for (int i = 0; i < anglesCount; i++) {
 				int posX = (int) (150 * Math.cos(i * (Math.PI * 2 / anglesCount)));
 				int posY = (int) (150 * Math.sin(i * (Math.PI * 2 / anglesCount)));
@@ -69,7 +72,7 @@ public class Transforms2D extends JPanel {
 			g2.setColor(Color.BLACK);
 			g2.setStroke(new BasicStroke(10));
 			g2.draw(polygon);
-			g2.setColor(new Color(216, 191, 216));
+			g2.setColor(new Color(240, 222, 42));
 			g2.fillPolygon(polygon);
 		}
 	}
