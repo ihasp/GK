@@ -44,12 +44,12 @@
             var white = "rgba(255, 255, 255, 1)";
             var black = "rgba(0, 0, 0, 1)";
 
-            
-            graphics.beginPath();
+                        graphics.beginPath();
             graphics.fillStyle = cyan; 
             graphics.moveTo(50, 450);
             graphics.fillRect(100, 200, 400, 200);
             graphics.strokeRect(100, 200, 400, 200);
+
             
             graphics.beginPath();
             graphics.fillStyle = white;
@@ -60,7 +60,7 @@
             graphics.fillCircle(365, 250, 15);
             graphics.fill();  
             graphics.stroke(); 
-
+          
             graphics.fillStyle = black;
             graphics.strokeStyle = black; 
             graphics.fillCircle(234, 250, 9);
@@ -74,10 +74,13 @@
             graphics.fillCircle(360, 246, 5);
             graphics.fill();  
 
+            
             graphics.beginPath();
             graphics.fillStyle = black;
             graphics.strokeStyle = black;
-
+            
+            graphics.translate(150,150);
+            graphics.scale(0.5,0.5);
             graphics.moveTo(225, 310);
             graphics.bezierCurveTo(225, 345, 365, 345, 365, 310 );
             graphics.bezierCurveTo(325, 395, 265, 380, 224, 310 );
@@ -93,10 +96,11 @@
             graphics.bezierCurveTo(365, 295, 360, 335, 390, 325 );
             graphics.fill(); 
             graphics.stroke(); 
-            
+
             graphics.fillStyle = white; 
             graphics.fillRect(285, 335, 19, 22);
             graphics.fillRect(305, 335, 19, 16);
+         
          }
         
         
