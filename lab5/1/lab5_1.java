@@ -11,7 +11,7 @@ import com.jogamp.opengl.util.gl2.GLUT;
  * select the object.  The space bar toggles the use of anaglyph
  * stereo.
  */
-public class Lab5 extends GLJPanel implements GLEventListener, KeyListener{
+public class Lab5_1 extends GLJPanel implements GLEventListener, KeyListener{
 
 	/**
 	 * A main routine to create and show a window that contains a
@@ -20,7 +20,7 @@ public class Lab5 extends GLJPanel implements GLEventListener, KeyListener{
 	 */
 	public static void main(String[] args) {
 		JFrame window = new JFrame("Some Objects in 3D");
-		Lab5 panel = new Lab5();
+		Lab5_1 panel = new Lab5_1();
 		window.setContentPane(panel);
 		window.pack();
 		window.setResizable(false);
@@ -32,7 +32,7 @@ public class Lab5 extends GLJPanel implements GLEventListener, KeyListener{
 	/**
 	 * Constructor for class Lab4.
 	 */
-	public Lab5() {
+	public Lab5_1() {
 		super( new GLCapabilities(null) ); // Makes a panel with default OpenGL "capabilities".
 		setPreferredSize( new Dimension(700,700) );
 		addGLEventListener(this); // This panel will respond to OpenGL events.
@@ -52,69 +52,63 @@ public class Lab5 extends GLJPanel implements GLEventListener, KeyListener{
 	private int rotateY = 0;    //   (Controlled by arrow, PageUp, PageDown keys;
 	private int rotateZ = 0;    //    Home key sets all rotations to 0.)
 
-	private void pyramidWalls(float n, GL2 gl2) {
-		float deg = 360 / n;
-		gl2.glBegin(GL.GL_TRIANGLE_FAN);
-		gl2.glVertex3d(0, 0, 0);
-		for (float i = 1; i <= n + 1; i++) {
-			gl2.glVertex3d(Math.cos(Math.toRadians(i * deg)), Math.sin(Math.toRadians(i * deg)), 2);
+	private GLUT glut = new GLUT(); // An object for drawing GLUT shapes.
+
+	private void corkscrew(GL2 gl2){
+	
+		int amountOfPoints = 1000;
+			
+			for(int i = 0; i < amountOfPoints; i++){
+				gl2.glPointSize(1+i/150);
+				gl2.glBegin(GL2.GL_POINTS);
+				gl2.glVertex3f((float)(3.5* Math.cos(i*2*Math.PI / (amountOfPoints /7))),
+				(float)(3.5 * Math.sin(i*2*Math.PI / (amountOfPoints / 7))), 0.01f * i * -1);
+				 gl2.glEnd();
+			}
 		}
-		gl2.glEnd();
-	}
-
-	private void pyramidBase(float n, GL2 gl2) {
-		float deg = 360 / n;
-		gl2.glBegin(GL.GL_TRIANGLE_FAN);
-		gl2.glVertex3d(0, 0, 2);
-		for (float i = 1; i <= n + 1; i++) {
-			gl2.glVertex3d(Math.cos(Math.toRadians(i * deg)), Math.sin(Math.toRadians(i * deg)), 2);
+	
+		private void pyramid(GL2 gl2){
+			float size = 5;
+			int n = 7;
+			gl2.glScalef(size,size,size);
+			gl2.glRotatef(90,1,0,0);
+			gl2.glTranslatef(0,0,-1);
+	
+			for(int i=0; i<n; i++){
+				gl2.glBegin(GL.GL_TRIANGLE_FAN);
+	
+				gl2.glVertex3d((float)(Math.cos((i-1)*2*Math.PI / n)),
+				(float)(Math.sin((i-1)*2*Math.PI/n)), 2f);
+				
+				gl2.glVertex3d((float)(Math.cos(i*2*Math.PI / n)),
+				(float)(Math.sin(i*2*Math.PI/n)), 2f);
+	
+				gl2.glVertex3d(0,0,0);
+	
+				gl2.glEnd();
+			}
 		}
-		gl2.glEnd();
-	}
 
-	private void pyramid(float n, float scale, GL2 gl2) {
-		gl2.glColor3f(0, 0, (float) 0.5);
-		gl2.glScalef(scale, scale, scale);
-		gl2.glRotatef(0, 0, 90, 0);
-		gl2.glTranslatef(0, 0, -1);
 
-		pyramidWalls(n, gl2);
-		pyramidBase(n, gl2);
-	}
 
-	private void corkscrew(int n, float scale, GL2 gl2) {
-		gl2.glColor3f(0, 0, (float) 0.5);
-		gl2.glScalef(scale, scale, scale);
-		gl2.glLineWidth(5);
-		gl2.glRotatef(0, 0, 90, 0);
-		gl2.glTranslatef(0, 0, -1);
-
-		gl2.glBegin(GL.GL_LINE_STRIP);
-		int res = 36;
-		float deg = 360 / res;
-
-		for (float i = 1; i <= n * res; i++) {
-			double x = Math.cos(Math.toRadians(i * deg));
-			double y = Math.sin(Math.toRadians(i * deg));
-			gl2.glVertex3d(x * (0.01f * i), y * (0.01f * i), (i / res) - (n / 2));
-		}
-		gl2.glEnd();
-	}
-
+	/**
+	 * The method that draws the current object, with its modeling transformation.
+	 */
 	private void draw(GL2 gl2) {
 
-		gl2.glRotatef(rotateZ, 0, 0, 1);
-		gl2.glRotatef(rotateY, 0, 1, 0);
-		gl2.glRotatef(rotateX, 1, 0, 0);
+		gl2.glRotatef(rotateZ,0,0,1);   // Apply rotations to complete object.
+		gl2.glRotatef(rotateY,0,1,0);
+		gl2.glRotatef(rotateX,1,0,0);
 
-		switch (objectNumber) {
+		gl2.glColor3f(0,1,0);
+	switch(objectNumber){
 		case 1:
-			corkscrew(15, 1, gl2);
+			corkscrew(gl2);
 			break;
 		case 2:
-			pyramid(15, 3, gl2);
+			pyramid(gl2);
 			break;
-		}
+	}
 
 	}
 
